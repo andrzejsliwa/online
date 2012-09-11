@@ -1,9 +1,12 @@
 -module(online_app).
-
 -behaviour(application).
+
+-include_lib("cowboy/include/http.hrl").
 
 %% Application callbacks
 -export([start/2, stop/1]).
+
+-define(REC_INFO(T,R), lists:zip(record_info(fields, T), tl(tuple_to_list(R)))).
 
 %% +-----------------------------------------------------------------+
 %% | CALLBACKS FUNCTIONS                                             |
@@ -24,7 +27,9 @@ start(_StartType, _StartArgs) ->
     lager:info("start cowboy http://localhost:8080"),
     cowboy:start_listener(online, 16,
                           cowboy_tcp_transport, [{port, 8080}],
-                          cowboy_http_protocol, [{dispatch, Dispatch}]
+                          cowboy_http_protocol, [{dispatch, Dispatch},
+                                                 {onrequest, fun cowboy_debug:onrequest_hook/1},
+                                                 {onresponse, fun  cowboy_debug:onresponse_hook/3}]
                          ),
     online_sup:start_link().
 
