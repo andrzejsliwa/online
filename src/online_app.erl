@@ -21,6 +21,7 @@ start(_StartType, _StartArgs) ->
                  ]}
                ]}
         ],
+    lager:info("start cowboy http://localhost:8080"),
     cowboy:start_listener(online, 16,
                           cowboy_tcp_transport, [{port, 8080}],
                           cowboy_http_protocol, [{dispatch, Dispatch}]

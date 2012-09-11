@@ -1,8 +1,10 @@
 #!/bin/bash
 # See LICENSE for licensing information.
-./rebar get-deps compile
+
 rlwrap -a dummy erl \
   -pa $PWD/ebin \
   -pa $PWD/deps/*/ebin \
-  -name online@127.0.0.1 \
-  -setcookie online
+  -sname online \
+  -config sys.config \
+  -s reloader \
+  -s online \
