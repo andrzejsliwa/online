@@ -1,0 +1,14 @@
+{application, online,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  lager,
+                  cowboy
+                 ]},
+  {mod, { online_app, []}},
+  {env, []}
+ ]}.
